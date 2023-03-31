@@ -53,7 +53,8 @@ module.exports = {
             'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
             'assets': path.resolve(__dirname, './src/assets')
         },
-        extensions: ['*', '.js', '.jsx']
+        extensions: ['*', '.js', '.jsx', '.ts', '.tsx']
+
     },
     externals: {
         // Don't bundle react or react-dom      

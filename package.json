@@ -1,38 +1,55 @@
 {
-  "name": "comic-strips-uikit",
-  "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "name": "@comic-strips/uikit",
+  "version": "1.0.1",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "publishConfig": {
-    "access": "restricted"
+    "access": "public"
   },
   "scripts": {
+    "prepublish": "yarn build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rmdir /s dist && babel src --out-dir dist --copy-files"
+    "build": "babel src -x .es6,.js,.es,.jsx,.mjs,.ts,.tsx --out-dir dist/cjs --env-name cjs && tsc"
   },
-  "author": "",
+  "author": "hsn_moghadasi",
   "license": "ISC",
   "peerDependencies": {
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
+  "private": false,
   "devDependencies": {
     "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.3",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-env": "^7.21.4",
     "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.21.4",
+    "@types/react": "^18.0.31",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^6.2.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "style-loader": "^3.3.2",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.3",
     "url-loader": "^4.1.1"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hsnMoghadasi/comic-strips-uikit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hsnMoghadasi/comic-strips-uikit/issues"
+  },
+  "homepage": "https://github.com/hsnMoghadasi/comic-strips-uikit#readme",
+  "keywords": [
+    "uikit"
+  ],
+  "description": ""
 }
