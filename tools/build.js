@@ -1,4 +1,3 @@
-// "build": "babel src -x .es6,.js,.es,.jsx,.mjs,.ts,.tsx --out-dir dist/cjs --env-name cjs && tsc"
 console.log('[build file ]');
 
 const path = require('path');
@@ -29,12 +28,7 @@ const buildTypes = () => {
 }
 
 const copyTypes = (dest) => {
-    // shell(`cpy ${typesRoot}/*.d.ts ${dest}`)
-    // shell(`cpy ${typesRoot}/*.d.ts" "${dest}`)
-    // shell(`xcopy "find . -name ${typesRoot}\\\*.d.ts" ${dest}`);
-    // cd ${typesRoot} && copy *.d.ts ${dest} && cd ${root} 
-    // shell("cp --parents `find -name '*.d.ts'` " + `'${dest}'`);
-    return  shell(`cd ${typesRoot} && copy *.d.ts ${dest}\\ && cd ${root}`);
+    return shell(`cd ${typesRoot} && copy *.d.ts ${dest}\\ && cd ${root}`);
 };
 
 const babel = (outDir, envName) => {
@@ -49,7 +43,7 @@ const babel = (outDir, envName) => {
  */
 const buildLib = async () => {
     await babel(cjsRoot, 'cjs');
-    await copyTypes(cjsRoot);
+    return await copyTypes(cjsRoot);
 };
 
 
@@ -59,7 +53,7 @@ const buildLib = async () => {
  */
 const buildEsm = async () => {
     await babel(esRoot, 'esm');
-    await copyTypes(esRoot);
+    return await copyTypes(esRoot);
 };
 
 /**
@@ -67,7 +61,7 @@ const buildEsm = async () => {
  * all it's immediate dependencies (excluding React, ReactDOM, etc)
  */
 const buildDist = async () => {
-    await babel(distRoot, 'dist');
+    return await babel(distRoot, 'dist');
 }
 
 
