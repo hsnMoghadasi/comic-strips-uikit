@@ -5,8 +5,11 @@ const path = require('path');
 const libraryName = pkg.name;
 
 module.exports = {
+    optimization: {
+        minimize: false,
+    },
     output: {
-        path: path.join(__dirname, './dist'),
+        path: path.join(__dirname, './lib/dist'),
         filename: 'index.js',
         library: libraryName,
         libraryTarget: 'umd',

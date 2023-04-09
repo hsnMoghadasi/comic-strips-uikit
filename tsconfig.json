@@ -7,8 +7,8 @@
     "importHelpers": true,
     "declaration": true,
     "sourceMap": true,
-    "rootDir": "./src",
-    "outDir": "./dist/esm",
+    "rootDir": "src",
+    "outDir": "lib",
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -20,6 +20,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "noEmit": true
   }
 }
