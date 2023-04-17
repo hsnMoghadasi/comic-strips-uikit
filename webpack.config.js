@@ -1,77 +1,102 @@
-const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const pkg = require('./package.json');
-const path = require('path');
+const webpack = require("webpack");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const pkg = require("./package.json");
+const path = require("path");
 const libraryName = pkg.name;
 
 module.exports = {
-    optimization: {
-        minimize: false,
-    },
-    output: {
-        path: path.join(__dirname, './lib/dist'),
-        filename: 'index.js',
-        library: libraryName,
-        libraryTarget: 'umd',
-        publicPath: '/dist/',
-        umdNamedDefine: true
-    },
-    plugins: [
-        new ExtractTextPlugin({
-            filename: 'index.css',
+  optimization: {
+    minimize: false,
+  },
+  output: {
+    path: path.join(__dirname, "./lib/dist"),
+    filename: "index.js",
+    library: libraryName,
+    libraryTarget: "umd",
+    publicPath: "/dist/",
+    umdNamedDefine: true,
+  },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: "index.css",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              fallback: "file-loader",
+              name: "[name][md5:hash].[ext]",
+              outputPath: "assets/",
+              publicPath: "/assets/",
+            },
+          },
+        ],
+      },
+      {
+        test: /\.*css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ["style-loader", "css-loader", "postcss-loader"],
         }),
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        },
+      },
+      {
+        test: /\.css$/i,
+        use: [
+          "style-loader",
+          "css-loader",
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "postcss-preset-env",
+                    {
+                      // Options
+                    },
+                  ],
+                ],
+              },
+            },
+          },
+        ],
+      },
     ],
-    module: {
-        rules: [{
-            test: /\.(png|svg|jpg|gif)$/,
-            use: [{
-                loader: 'url-loader',
-                options: {
-                    fallback: "file-loader",
-                    name: "[name][md5:hash].[ext]",
-                    outputPath: 'assets/',
-                    publicPath: '/assets/'
-                }
-            }]
-        },
-        {
-            test: /\.*css$/,
-            use: ExtractTextPlugin.extract({
-                fallback: 'style-loader',
-                use: ['css-loader']
-            })
-        },
-        {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            use: {
-                loader: 'babel-loader'
-            }
-        }]
+  },
+  externals: {},
+  resolve: {
+    alias: {
+      react: path.resolve(__dirname, "./node_modules/react"),
+      "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
+      assets: path.resolve(__dirname, "./src/assets"),
     },
-    externals: {},
-    resolve: {
-        alias: {
-            'react': path.resolve(__dirname, './node_modules/react'),
-            'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
-            'assets': path.resolve(__dirname, './src/assets')
-        },
-        extensions: ['*', '.js', '.jsx', '.ts', '.tsx']
-
+    extensions: ["*", ".js", ".jsx", ".ts", ".tsx"],
+  },
+  externals: {
+    // Don't bundle react or react-dom
+    react: {
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "React",
+      root: "React",
     },
-    externals: {
-        // Don't bundle react or react-dom      
-        react: {
-            commonjs: "react",
-            commonjs2: "react",
-            amd: "React",
-            root: "React"
-        },
-        "react-dom": {
-            commonjs: "react-dom",
-            commonjs2: "react-dom",
-            amd: "ReactDOM",
-            root: "ReactDOM"
-        }
-    }
-}
+    "react-dom": {
+      commonjs: "react-dom",
+      commonjs2: "react-dom",
+      amd: "ReactDOM",
+      root: "ReactDOM",
+    },
+  },
+};

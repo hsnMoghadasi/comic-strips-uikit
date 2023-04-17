@@ -4,6 +4,7 @@ const path = require('path');
 
 const root = path.join(__dirname);
 const srcRoot = path.join(__dirname, '../src');
+const cssRoot = path.join(__dirname, '../src/styles');
 const typesRoot = path.join(__dirname, '../types');
 
 const libRoot = path.join(__dirname, '../lib');
@@ -19,8 +20,9 @@ const shell = (cmd) => {
 }
 
 // const clean = () => fse.existsSync(libRoot) && fse.removeSync(libRoot);
-const clean = () => {
-    return shell(`rmdir /s ${libRoot}`)
+const clean = async () => {
+    await shell(`rd /s /q ${libRoot}`)
+    return await shell(`rd /s /q ${typesRoot}`)
 };
 
 const buildTypes = () => {
@@ -29,6 +31,12 @@ const buildTypes = () => {
 
 const copyTypes = (dest) => {
     return shell(`cd ${typesRoot} && copy *.d.ts ${dest}\\ && cd ${root}`);
+};
+
+const buildCss = (outDir) => {
+    // return shell(`postcss ${cssRoot} -x .css -o ${outDir}`);
+    // return shell(`postcss ${cssRoot}\**\*.css --dir ${outDir}`);
+    return shell(`postcss ${cssRoot}/index.css -o ${outDir}/styles/index.css`);
 };
 
 const babel = (outDir, envName) => {
@@ -43,6 +51,7 @@ const babel = (outDir, envName) => {
  */
 const buildLib = async () => {
     await babel(cjsRoot, 'cjs');
+    await buildCss(cjsRoot, 'cjs');
     return await copyTypes(cjsRoot);
 };
 
@@ -53,6 +62,7 @@ const buildLib = async () => {
  */
 const buildEsm = async () => {
     await babel(esRoot, 'esm');
+    await buildCss(esRoot, 'cjs');
     return await copyTypes(esRoot);
 };
 
@@ -61,7 +71,8 @@ const buildEsm = async () => {
  * all it's immediate dependencies (excluding React, ReactDOM, etc)
  */
 const buildDist = async () => {
-    return await babel(distRoot, 'dist');
+    await babel(distRoot, 'dist');
+    return await buildCss(distRoot, 'cjs');
 }
 
 
