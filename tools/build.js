@@ -51,7 +51,7 @@ const babel = (outDir, envName) => {
  */
 const buildLib = async () => {
     await babel(cjsRoot, 'cjs');
-    await buildCss(cjsRoot, 'cjs');
+    // await buildCss(cjsRoot, 'cjs');
     return await copyTypes(cjsRoot);
 };
 
@@ -62,7 +62,7 @@ const buildLib = async () => {
  */
 const buildEsm = async () => {
     await babel(esRoot, 'esm');
-    await buildCss(esRoot, 'cjs');
+    // await buildCss(esRoot, 'cjs');
     return await copyTypes(esRoot);
 };
 
@@ -76,10 +76,10 @@ const buildDist = async () => {
 }
 
 
-clean();
 
 
 Promise.resolve(true)
+    .then(clean)
     .then(buildTypes)
     .then(() =>
         Promise.all([
