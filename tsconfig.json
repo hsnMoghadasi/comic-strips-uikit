@@ -2,6 +2,7 @@
   "exclude": ["dist", "node_modules"],
   "include": ["src", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
+    "target": "es5",
     "module": "esnext",
     "lib": ["dom", "esnext"],
     "importHelpers": true,

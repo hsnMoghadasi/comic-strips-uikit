@@ -1,5 +1,6 @@
 console.log('[build file ]');
-
+const webpack = require('webpack');
+const getConfig = require('./../webpack.config');
 const path = require('path');
 
 const root = path.join(__dirname);
@@ -30,7 +31,8 @@ const buildTypes = () => {
 }
 
 const copyTypes = (dest) => {
-    return shell(`cd ${typesRoot} && copy *.d.ts ${dest}\\ && cd ${root}`);
+    // return shell(`cd ${typesRoot} && copy *.d.ts ${dest}\\ && cd ${root}`);
+    return shell(`copy ${typesRoot} ${dest}`);
 };
 
 const buildCss = (outDir) => {
@@ -51,7 +53,6 @@ const babel = (outDir, envName) => {
  */
 const buildLib = async () => {
     await babel(cjsRoot, 'cjs');
-    // await buildCss(cjsRoot, 'cjs');
     return await copyTypes(cjsRoot);
 };
 
@@ -62,7 +63,6 @@ const buildLib = async () => {
  */
 const buildEsm = async () => {
     await babel(esRoot, 'esm');
-    // await buildCss(esRoot, 'cjs');
     return await copyTypes(esRoot);
 };
 
@@ -71,8 +71,21 @@ const buildEsm = async () => {
  * all it's immediate dependencies (excluding React, ReactDOM, etc)
  */
 const buildDist = async () => {
-    await babel(distRoot, 'dist');
-    return await buildCss(distRoot, 'cjs');
+    return new Promise((resolve, reject) => {
+        webpack(
+            [getConfig(false), getConfig(true)],
+            async (err, stats) => {
+                if (err || stats.hasErrors()) {
+                    reject(err || stats.toJson().errors);
+                    return;
+                }
+                resolve();
+            },
+        );
+    })
+
+    // await babel(distRoot, 'dist');
+    // return await buildCss(distRoot, 'cjs');
 }
 
 
@@ -88,6 +101,7 @@ Promise.resolve(true)
             buildDist(),
         ]),
     )
+    .then(() => buildCss(distRoot, 'cjs'))
     // .then(buildDirectories)
     .catch((err) => {
         if (err) console.error(err.stack || err.toString());

@@ -15,7 +15,7 @@ type variant =
   | "secondary_floating";
 type size = "xlg" | "lg" | "md" | "sm" | "xs";
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: variant;
   className?: string;
   disabled?: boolean;
@@ -64,7 +64,7 @@ const classNamesByDisableVariant: Record<variant, string> = {
   secondary_floating: "bg-primary border border-primary text-neutrals-0",
 };
 
-const Button: React.FC<Props> = ({
+const Button: React.FC<ButtonProps> = ({
   children,
   variant = "primary_red",
   disabled,

@@ -4,13 +4,11 @@ const pkg = require("./package.json");
 const path = require("path");
 const libraryName = pkg.name;
 
-module.exports = {
-  optimization: {
-    minimize: false,
-  },
+module.exports = (optimize) => ({
+  entry: './src/index.tsx',
   output: {
     path: path.join(__dirname, "./lib/dist"),
-    filename: "index.js",
+    filename: optimize ? "index.min.js" : "index.js",
     library: libraryName,
     libraryTarget: "umd",
     publicPath: "/dist/",
@@ -49,6 +47,10 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
+          options: {
+            cacheDirectory: true,
+            envName: `dist-${optimize ? 'prod' : 'dev'}`,
+          },
         },
       },
       {
@@ -73,6 +75,17 @@ module.exports = {
           },
         ],
       },
+      { test: /\.tsx?$/, use: "ts-loader" },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-react"]
+          }
+        }
+      }
     ],
   },
   externals: {},
@@ -99,4 +112,4 @@ module.exports = {
       root: "ReactDOM",
     },
   },
-};
+})

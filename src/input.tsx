@@ -1,13 +1,14 @@
 import InputUnstyled from "@mui/base/InputUnstyled";
 import React from "react";
 
-interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
 }
 
-const Input: React.FC<Props> = React.forwardRef<
+const Input: React.FC<InputProps> = React.forwardRef<
   HTMLButtonElement,
-  Props
+  InputProps
 >(({ className = "", disabled, error = false, ...rest }) => {
   return (
     <InputUnstyled

@@ -3,7 +3,7 @@ import React from "react";
 type variant = "default" | "main" | "green" | "red" | "gold" | "blue";
 type size = 18 | 20 | 24 | 28;
 
-interface Props extends React.HTMLAttributes<HTMLElement> {
+export interface BadgeProps extends React.HTMLAttributes<HTMLElement> {
   variant?: variant;
   size?: size;
   //   icon;
@@ -41,7 +41,7 @@ const textClassNamesByVariant: Record<variant, string> = {
   red: "text-semantic-error-dark",
 };
 
-const Badge: React.FC<Props> = ({
+const Badge: React.FC<BadgeProps> = ({
   children,
   size = 20,
   variant = "default",
