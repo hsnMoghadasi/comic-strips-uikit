@@ -22,8 +22,8 @@ const shell = (cmd) => {
 
 // const clean = () => fse.existsSync(libRoot) && fse.removeSync(libRoot);
 const clean = async () => {
-    await shell(`rd /s /q ${libRoot}`)
-    return await shell(`rd /s /q ${typesRoot}`)
+    await shell(`if exist ${libRoot} (rd /s /q ${libRoot})`)
+    return await shell(`if exist ${typesRoot} (rd /s /q ${typesRoot})`)
 };
 
 const buildTypes = () => {
