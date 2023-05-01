@@ -44,7 +44,7 @@ module.exports = (optimize) => ({
       },
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|.*\.stories\.tsx)/,
         use: {
           loader: "babel-loader",
           options: {

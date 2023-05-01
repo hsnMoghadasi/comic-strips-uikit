@@ -43,7 +43,7 @@ const buildCss = (outDir) => {
 
 const babel = (outDir, envName) => {
     return shell(
-        `yarn babel ${srcRoot} -x .es6,.js,.es,.jsx,.mjs,.ts,.tsx --out-dir ${outDir} --env-name "${envName}"`,
+        `yarn babel ${srcRoot} -x .es6,.js,.es,.jsx,.mjs,.ts,.tsx --out-dir ${outDir} --env-name "${envName}" --ignore "**/*.stories.tsx"`,
     );
 }
 
