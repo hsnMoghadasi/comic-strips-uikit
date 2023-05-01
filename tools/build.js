@@ -1,4 +1,3 @@
-console.log('[build file ]');
 const webpack = require('webpack');
 const getConfig = require('./../webpack.config');
 const path = require('path');
@@ -20,7 +19,6 @@ const shell = (cmd) => {
     return execa(cmd, { stdio: ['pipe', 'pipe', 'inherit'], shell: true });
 }
 
-// const clean = () => fse.existsSync(libRoot) && fse.removeSync(libRoot);
 const clean = async () => {
     await shell(`if exist ${libRoot} (rd /s /q ${libRoot})`)
     return await shell(`if exist ${typesRoot} (rd /s /q ${typesRoot})`)
@@ -31,13 +29,10 @@ const buildTypes = () => {
 }
 
 const copyTypes = (dest) => {
-    // return shell(`cd ${typesRoot} && copy *.d.ts ${dest}\\ && cd ${root}`);
     return shell(`copy ${typesRoot} ${dest}`);
 };
 
 const buildCss = (outDir) => {
-    // return shell(`postcss ${cssRoot} -x .css -o ${outDir}`);
-    // return shell(`postcss ${cssRoot}\**\*.css --dir ${outDir}`);
     return shell(`postcss ${cssRoot}/index.css -o ${outDir}/styles/index.css`);
 };
 
@@ -83,9 +78,6 @@ const buildDist = async () => {
             },
         );
     })
-
-    // await babel(distRoot, 'dist');
-    // return await buildCss(distRoot, 'cjs');
 }
 
 
